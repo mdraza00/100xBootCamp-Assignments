@@ -11,6 +11,44 @@
 // - Start Secondary after timeoutMs if needed.
 // - First success wins.
 // - Callback must be called exactly once.
-function hedgedRequest(primary, secondary, timeoutMs, onComplete) {}
+function hedgedRequest(primary, secondary, timeoutMs, onComplete) {
+  let err1 = null;
+  let err2 = null;
+  let callBackCalled = false;
+  let time = new Date().getTime();
+  primary((err, data) => {
+    if (err) {
+      err1 = err;
+
+      if (err1 && err2) {
+        onComplete(new Error("Secondary Failed"));
+      }
+    }
+    if (data) {
+      if (!callBackCalled) {
+        callBackCalled = true;
+        onComplete(null, data);
+      }
+    }
+  });
+
+  setTimeout(() => {
+    secondary((err, data) => {
+      if (err) {
+        err2 = err;
+
+        if (err1 && err2) {
+          onComplete(new Error("Secondary Failed"));
+        }
+      }
+      if (data) {
+        if (!callBackCalled) {
+          callBackCalled = true;
+          onComplete(null, data);
+        }
+      }
+    });
+  }, timeoutMs);
+}
 
 module.exports = hedgedRequest;

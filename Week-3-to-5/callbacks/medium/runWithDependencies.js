@@ -11,6 +11,8 @@
 // Invoke finalCallback after all tasks have completed, or with an error
 // if any task fails.
 
-function runWithDependencies(tasks, finalCallback) {}
+function runWithDependencies(tasks, finalCallback) {
+    console.log(tasks);
+}
 
 module.exports = runWithDependencies;

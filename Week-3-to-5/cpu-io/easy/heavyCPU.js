@@ -7,7 +7,12 @@
 // operation blocks the JavaScript event loop, preventing other code
 // (such as timers or async callbacks) from running until it completes.
 
-
-function heavyCPU(iterations) {}
+function heavyCPU(iterations) {
+  let sum = 0;
+  for (let i = 1; i <= iterations; i++) {
+    sum += i;
+  }
+  return sum - iterations;
+}
 
 module.exports = heavyCPU;

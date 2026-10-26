@@ -7,6 +7,15 @@
 // If the I/O operation does not complete within the specified number
 // of milliseconds, the returned promise should reject with a "Timeout" error.
 
-async function ioWithTimeout(fn, ms) {}
+async function ioWithTimeout(fn, ms) {
+  let t1 = new Date().getTime();
+  let resolvedOnTime = false;
+  const data = await fn();
+  if(new Date().getTime() - t1 <= ms){
+    return data;
+  }else{
+    throw "Timeout";
+  }
+}
 
 module.exports = ioWithTimeout;

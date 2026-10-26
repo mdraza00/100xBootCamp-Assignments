@@ -5,9 +5,13 @@
 // The function should wait for the specified time and then invoke the callback
 // with an error.
 
-function rejectAfter(ms, callback) {
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function rejectAfter(ms, callback) {
+  const time = new Date().getTime();
+  wait(ms).then(() => {
+    callback(new Error(`Rejected after ${ms}ms`), null);
+  });
 }
 
 module.exports = rejectAfter;
-

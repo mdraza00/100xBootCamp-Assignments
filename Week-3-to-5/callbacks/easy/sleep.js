@@ -4,9 +4,10 @@
 // in milliseconds and a callback function.
 // The function should wait for the specified time and then invoke the callback.
 
-function sleep(millis, callback) {
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function sleep(millis, callback) {
+  wait(millis).then((res) => callback());
 }
 
 module.exports = sleep;
-

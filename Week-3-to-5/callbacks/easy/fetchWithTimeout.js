@@ -8,9 +8,13 @@
 // If the operation exceeds the time limit, the callback is invoked with an Error
 // whose message is "Request Timed Out".
 
-
 function fetchWithTimeout(url, ms, callback) {
-
+  // 1. get the time which is taken by the fetch to get the data.
+  const time = new Date().getTime();
+  fetch(url, (err, data) => {
+    const timeDeff = new Date().getTime() - time;
+    timeDeff <= ms ? callback(null, data) : callback(new Error("Request Timed Out")) 
+  });
 }
 
 module.exports = fetchWithTimeout;
